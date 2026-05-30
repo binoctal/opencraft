@@ -1,0 +1,7 @@
+node_modules/
+.in_use/
+learning/
+.claude/
+.wolf/
+openspec/
+CLAUDE.md

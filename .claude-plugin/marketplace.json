@@ -1,0 +1,26 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "opencraft",
+  "description": "Development governance toolkit — structured workflows (OpenSpec), automated guards (hooks), and experience accumulation",
+  "owner": {
+    "name": "binoctal",
+    "email": "binoctal@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "opencraft",
+      "description": "Development governance toolkit for Claude Code — structured workflows (OpenSpec), automated guards (hooks), rule governance, and experience accumulation",
+      "source": "./",
+      "version": "0.1.0",
+      "author": {
+        "name": "binoctal"
+      },
+      "category": "development",
+      "keywords": ["workflow", "governance", "hooks", "openspec"],
+      "homepage": "https://github.com/binoctal/opencraft",
+      "license": "MIT",
+      "skills": ["./skills"],
+      "hooks": "./hooks/hooks.json"
+    }
+  ]
+}
