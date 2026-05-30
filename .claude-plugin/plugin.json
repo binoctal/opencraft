@@ -1,7 +1,7 @@
 {
   "name": "opencraft",
   "description": "Development governance middleware for Claude Code — auto-detecting tech stacks, enforcing quality gates through hooks",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": {
     "name": "binoctal",
     "email": "binoctal@gmail.com"

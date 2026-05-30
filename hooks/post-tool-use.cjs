@@ -1,7 +1,14 @@
-const { run } = require("./utils.cjs");
+const { run, readToolInput } = require("./utils.cjs");
 const { loadProfile } = require("./lib/detection.cjs");
 
 function main() {
+  // Only act on git commit commands
+  const input = readToolInput();
+  const cmd = (input.tool_input && input.tool_input.command) || "";
+  if (!/git\s+commit/.test(cmd)) {
+    process.exit(0);
+  }
+
   const cwd = process.cwd();
   const profile = loadProfile(cwd);
 
