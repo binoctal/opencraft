@@ -62,6 +62,20 @@ claude plugin marketplace remove opencraft # 移除 marketplace 源
 
 多技术栈项目完全支持——所有检测到的技术栈都会贡献验证命令。
 
+### Monorepo 支持
+
+Opencraft 自动检测 monorepo 并使用工作区级别的命令：
+
+| Monorepo 工具 | 检测文件 | 验证命令 |
+|---------------|---------|---------|
+| pnpm | `pnpm-workspace.yaml` | `pnpm -r run test` |
+| turbo | `turbo.json` | `turbo run test`（优先使用） |
+| Lerna | `lerna.json` | `npx lerna run test` |
+| Nx | `nx.json` | `nx run-many --target=test` |
+| npm workspaces | `package.json` workspaces | `npm run test --workspaces` |
+
+当 turbo 与其他 monorepo 工具共存时（如 pnpm + turbo），优先使用 turbo 命令以获得缓存加速。子项目技术栈自动扫描并纳入 profile。
+
 ## Skills
 
 | Skill | 说明 |

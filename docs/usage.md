@@ -153,11 +153,12 @@ Shows available skills, governance rules, and compatibility info. Informational 
 }
 ```
 
-- `techStack`: Detected tech stacks
+- `techStack`: Detected tech stacks (includes sub-project stacks for monorepos)
 - `verify`: Commands run after every `git commit`
 - `lint`: Commands for lint checks
 - `build`: Build commands (not auto-run, for reference)
 - `files`: Fingerprint file state — used to detect when profile needs refresh
+- `monorepo`: (optional) Monorepo metadata — type, sub-project count, tools
 
 ### Profile Refresh
 

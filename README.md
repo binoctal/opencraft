@@ -62,6 +62,20 @@ When you end a conversation, opencraft checks for uncommitted changes and remind
 
 Multi-stack projects are fully supported — all detected stacks contribute verification commands.
 
+### Monorepo Support
+
+Opencraft detects monorepo setups and uses workspace-aware commands:
+
+| Monorepo Tool | Detected By | Verification |
+|---------------|-------------|-------------|
+| pnpm | `pnpm-workspace.yaml` | `pnpm -r run test` |
+| turbo | `turbo.json` | `turbo run test` (preferred when present) |
+| Lerna | `lerna.json` | `npx lerna run test` |
+| Nx | `nx.json` | `nx run-many --target=test` |
+| npm workspaces | `package.json` workspaces | `npm run test --workspaces` |
+
+When turbo is detected alongside another monorepo tool (e.g., pnpm + turbo), turbo commands take priority for efficiency. Sub-project tech stacks are automatically scanned and included in the profile.
+
 ## Skills
 
 | Skill | Description |
