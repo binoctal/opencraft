@@ -279,9 +279,14 @@ function buildProfile(cwd) {
     }
 
     const monoCmds = getMonorepoCommands(cwd);
-    verify = monoCmds.verify.length > 0 ? monoCmds.verify : stacks.flatMap((s) => s.verify || []);
-    lint = monoCmds.lint.length > 0 ? monoCmds.lint : stacks.flatMap((s) => s.lint || []);
-    build = monoCmds.build.length > 0 ? monoCmds.build : stacks.flatMap((s) => s.build || []);
+    // Fallback includes both root and sub-project stack defaults
+    const allStackDefaults = [
+      ...stacks,
+      ...subStacks.map((s) => FINGERPRINTS.find((f) => f.stack === s) || { stack: s }),
+    ];
+    verify = monoCmds.verify.length > 0 ? monoCmds.verify : allStackDefaults.flatMap((s) => s.verify || []);
+    lint = monoCmds.lint.length > 0 ? monoCmds.lint : allStackDefaults.flatMap((s) => s.lint || []);
+    build = monoCmds.build.length > 0 ? monoCmds.build : allStackDefaults.flatMap((s) => s.build || []);
 
     const tools = [];
     if (fileExists(path.join(cwd, "turbo.json"))) tools.push("turbo");

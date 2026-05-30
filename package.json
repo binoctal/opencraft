@@ -1,6 +1,6 @@
 {
   "name": "opencraft",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Development governance middleware for Claude Code — auto-detecting tech stacks, enforcing quality gates through hooks",
   "type": "module",
   "license": "MIT",
