@@ -72,6 +72,7 @@ function main() {
 
     if (messages.length > 0) {
       output.message = messages.join("\n");
+      output.systemMessage = messages.join("\n");
     }
 
     process.stdout.write(JSON.stringify(output));
