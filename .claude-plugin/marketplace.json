@@ -1,0 +1,26 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "opencraft",
+  "description": "Development governance middleware — auto-detecting tech stacks, enforcing quality gates through hooks, monorepo support",
+  "owner": {
+    "name": "binoctal",
+    "email": "binoctal@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "opencraft",
+      "description": "Development governance middleware for Claude Code — auto-detecting tech stacks, enforcing quality gates through hooks, monorepo-aware verification",
+      "source": "./",
+      "version": "3.1.0",
+      "author": {
+        "name": "binoctal"
+      },
+      "category": "development",
+      "keywords": ["governance", "hooks", "auto-detection", "quality-gates", "monorepo"],
+      "homepage": "https://github.com/binoctal/opencraft",
+      "license": "MIT",
+      "skills": ["./skills"],
+      "hooks": "./hooks/hooks.json"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${HOME}/.claude/plugins/marketplaces/opencraft/hooks/session-start.cjs\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write(*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${HOME}/.claude/plugins/marketplaces/opencraft/hooks/pre-tool-use.cjs\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Edit(*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${HOME}/.claude/plugins/marketplaces/opencraft/hooks/pre-tool-use.cjs\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(git push*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${HOME}/.claude/plugins/marketplaces/opencraft/hooks/pre-tool-use.cjs\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash(*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${HOME}/.claude/plugins/marketplaces/opencraft/hooks/post-tool-use.cjs\"",
+            "timeout": 120
+          }
+        ]
+      },
+      {
+        "matcher": "Write(*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${HOME}/.claude/plugins/marketplaces/opencraft/hooks/post-tool-use.cjs\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Edit(*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${HOME}/.claude/plugins/marketplaces/opencraft/hooks/post-tool-use.cjs\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${HOME}/.claude/plugins/marketplaces/opencraft/hooks/stop.cjs\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

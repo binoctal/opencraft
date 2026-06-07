@@ -1,0 +1,32 @@
+module.exports = [
+  {
+    id: "gitlab-pat",
+    name: "GitLab Personal Access Token",
+    type: "secret",
+    severity: "critical",
+    keywords: ["glpat-"],
+    regex: /glpat-[\w-]{20}/,
+    entropy: 3,
+    allowlist: [/glpat-[xX]+-[xX]+/],
+  },
+  {
+    id: "gitlab-deploy-token",
+    name: "GitLab Deploy Token",
+    type: "secret",
+    severity: "critical",
+    keywords: ["gldt-"],
+    regex: /gldt-[0-9a-zA-Z_-]{20}/,
+    entropy: 3,
+    allowlist: [],
+  },
+  {
+    id: "gitlab-runner-token",
+    name: "GitLab Runner Token",
+    type: "secret",
+    severity: "critical",
+    keywords: ["glrt-"],
+    regex: /glrt-[0-9a-zA-Z_-]{20}/,
+    entropy: 3,
+    allowlist: [],
+  },
+];

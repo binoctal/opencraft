@@ -1,0 +1,23 @@
+{
+  "name": "opencraft",
+  "version": "0.1.0",
+  "description": "Development governance middleware for Claude Code — auto-detecting tech stacks, enforcing quality gates through hooks",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/binoctal/opencraft.git"
+  },
+  "author": "binoctal <binoctal@gmail.com>",
+  "keywords": [
+    "claude-code",
+    "plugin",
+    "governance",
+    "hooks",
+    "auto-detection",
+    "quality-gates"
+  ],
+  "scripts": {
+    "test": "find test -name '*.test.cjs' -exec node --test {} +"
+  }
+}

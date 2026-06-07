@@ -1,0 +1,9 @@
+node_modules/
+.in_use/
+learning/
+.claude/
+.wolf/
+.opencraft/
+openspec/
+CLAUDE.md
+opencraft-docs/
