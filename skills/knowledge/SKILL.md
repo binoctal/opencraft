@@ -39,7 +39,7 @@ if (entries.length === 0) {
     });
     console.log('');
   }
-  console.log('Actions: promote N | demote N | delete N | edit N | done');
+  console.log('Actions: promote N | demote N | delete N | edit N | export N');
 }
 "
 ```
@@ -53,7 +53,7 @@ The user says one of:
 - `demote N` — move entry N from global to project
 - `delete N` — remove entry N
 - `edit N` — Claude asks for new value, then updates
-- `done` — exit
+- `export N` — convert entry N to an enforce rule in `.opencraft/rules/`
 
 Parse the number N against the displayed list.
 
@@ -110,6 +110,26 @@ console.log('Updated: ${key}');
 "
 ```
 
+**export N:**
+1. Read the entry's key and value
+2. Generate a rule file following this structure:
+```js
+module.exports = [{
+  id: "knowledge-<key>",
+  name: "<Human-readable name from value>",
+  type: "quality",
+  severity: "medium",
+  trigger: "Write|Edit",
+  check: (ctx) => {
+    // Detection logic derived from the knowledge value
+    // Return { blocked: false, message: "warning text" } for violations
+  },
+}];
+```
+3. Show the generated rule to the user for review
+4. If approved, write to `.opencraft/rules/knowledge-<key>.cjs`
+5. The Phase A rule engine auto-loads it on next hook invocation
+
 ## Step 4: Re-list and Repeat
 
-After each action, re-run the listing from Step 1 to show the updated state. Repeat from Step 2 until the user says `done`.
+After each action, re-run the listing from Step 1 to show the updated state. Repeat from Step 2.
