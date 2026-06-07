@@ -12,12 +12,11 @@ function isActivatedProject(cwd) {
   return fs.existsSync(path.join(cwd, ".opencraft", "profile.json"));
 }
 
-function buildIndexLine(profile, conventionCount, decisionCount, ruleCount) {
+function buildIndexLine(profile, conventionCount, ruleCount) {
   const stack = (profile.techStack || []).join("/");
   const parts = [];
   if (stack) parts.push(stack);
   if (conventionCount > 0) parts.push(`${conventionCount} conventions`);
-  if (decisionCount > 0) parts.push(`${decisionCount} decisions`);
   if (ruleCount > 0) parts.push(`${ruleCount} rules`);
   return `[opencraft] ${parts.join(" | ")}\nUse opencraft:context for full project details`;
 }
@@ -36,13 +35,6 @@ function main() {
     let conventionCount = 0;
     try { conventionCount = countConventions(cwd); } catch {}
 
-    // Count decisions from knowledge store
-    let decisionCount = 0;
-    try {
-      const { readKnowledgeFile } = require("./lib/knowledge.cjs");
-      decisionCount = readKnowledgeFile(cwd, "decisions").length;
-    } catch {}
-
     // Count user rules in .opencraft/rules/
     let ruleCount = 0;
     try {
@@ -55,7 +47,7 @@ function main() {
 
     const message = isNew
       ? `[opencraft] ${profile.techStack.join(" + ")} | governance profile generated | /opencraft:setup to adjust`
-      : buildIndexLine(profile, conventionCount, decisionCount, ruleCount);
+      : buildIndexLine(profile, conventionCount, ruleCount);
 
     process.stdout.write(JSON.stringify({ systemMessage: message }));
     process.exit(0);

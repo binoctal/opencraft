@@ -15,8 +15,8 @@ Opencraft 是一个**零配置的治理层**，完全自动运行：
 - **密钥泄露防护** — 阻止 API 密钥、Token、私钥写入源代码
 - **分支保护** — 阻止直接推送到 main/master
 - **依赖审计** — 依赖文件变更时发出警告
-- **会话交接** — AI 生成会话摘要，跨对话保持连续性
 - **CI 对齐** — 检测本地验证与 CI 工作流的不一致
+- **决策连续性** — 从 cccmemory 读取历史决策，避免重复讨论已确定的选择
 
 ## 安装
 
@@ -43,22 +43,14 @@ claude plugin marketplace remove opencraft # 移除 marketplace 源
 1. 从指纹文件检测项目技术栈
 2. 生成 `.opencraft/profile.json` 配置验证命令
 3. 检查 CI 对齐情况
-4. 加载上次会话的交接文档（如存在）
-5. 将治理上下文注入对话
-6. 显示一行状态摘要
+4. 将治理上下文注入对话
+5. 显示一行状态摘要
 
 ### Git Push
 
 每次 `git push` 后，opencraft 自动运行 profile 中的验证命令。仅验证有文件变更的子项目，通过则静默，失败则阻止推送。
 
 **分支保护**阻止直接推送到 `main` 和 `master`。请使用功能分支。
-
-### 会话结束
-
-结束对话时，opencraft：
-
-1. 检查未提交的变更
-2. 提示 Claude 写入会话摘要到 `.opencraft/handoff.md`
 
 ## 治理 Hooks
 
@@ -116,7 +108,7 @@ claude plugin marketplace remove opencraft # 移除 marketplace 源
 
 ### 决策连续性
 
-**SessionStart** — 从 cccmemory（或 `.opencraft/decisions.md` 回退源）读取历史决策并注入上下文。确保 AI 不会重新讨论已确定的架构选择。
+**SessionStart** — 从 cccmemory 读取历史决策并注入上下文。确保 AI 不会重新讨论已确定的架构选择。
 
 ### 质量基线
 
@@ -129,12 +121,6 @@ claude plugin marketplace remove opencraft # 移除 marketplace 源
 - 反模式（大文件、上帝模块）
 
 显著变化（>5%）时显示趋势。快照保存到 `.opencraft/quality-snapshot.json`。
-
-### 会话交接
-
-**Stop** — 提示 Claude 写入简短的 AI 生成摘要到 `.opencraft/handoff.md`。
-
-**SessionStart** — 加载交接文档作为新会话的上下文。
 
 ## 支持的技术栈
 
@@ -193,9 +179,7 @@ Opencraft 自动检测 monorepo 并使用工作区级别的命令：
 | 文件 | 用途 |
 |------|------|
 | `.opencraft/profile.json` | 自动生成的治理配置 |
-| `.opencraft/handoff.md` | AI 生成的会话摘要 |
 | `.opencraft/conventions.md` | 检测到的代码约定（人类可读） |
-| `.opencraft/decisions.md` | 历史决策记录 |
 | `.opencraft/quality-snapshot.json` | 质量指标快照 |
 | `.opencraft/knowledge.md` | 项目知识（cccmemory 回退源） |
 
@@ -205,10 +189,9 @@ Opencraft 自动检测 monorepo 并使用工作区级别的命令：
 
 | Hook | 事件 | 作用 |
 |------|------|------|
-| `session-start.cjs` | SessionStart | 检测技术栈、生成 profile、检查 CI 对齐、加载交接文档、运行智能上下文 |
+| `session-start.cjs` | SessionStart | 检测技术栈、生成 profile、检查 CI 对齐、运行智能上下文 |
 | `pre-tool-use.cjs` | PreToolUse | Write/Edit 密钥扫描、git push 分支保护 |
 | `post-tool-use.cjs` | PostToolUse | Write/Edit 依赖审计、架构守卫、git push 验证 |
-| `stop.cjs` | Stop | 决策自动追加、未提交变更提醒 |
 
 ## 可见性
 

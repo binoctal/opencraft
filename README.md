@@ -15,8 +15,8 @@ Opencraft is a **zero-configuration governance layer** that works automatically:
 - **Secret prevention** — Blocks API keys, tokens, and private keys from being written to source code
 - **Branch protection** — Prevents direct pushes to main/master
 - **Dependency auditing** — Warns when dependency files are modified
-- **Session handoff** — AI-generated session summaries for continuity across conversations
 - **CI alignment** — Detects mismatches between local verification and CI workflows
+- **Decision continuity** — Reads historical decisions from cccmemory to prevent re-debating settled choices
 
 ## Install
 
@@ -43,22 +43,14 @@ When you start a conversation, opencraft:
 1. Detects your project's tech stack from fingerprint files
 2. Generates `.opencraft/profile.json` with verification commands
 3. Checks CI alignment against your governance profile
-4. Loads session handoff from last conversation (if exists)
-5. Injects governance context into the conversation
-6. Shows a one-line status summary
+4. Injects governance context into the conversation
+5. Shows a one-line status summary
 
 ### Git Push
 
 After every `git push`, opencraft automatically runs verification commands from the profile. Only sub-projects with changed files are verified. Passes silently, blocks on failure.
 
 **Branch protection** blocks direct pushes to `main` and `master`. Use a feature branch instead.
-
-### Session End
-
-When you end a conversation, opencraft:
-
-1. Checks for uncommitted changes
-2. Prompts Claude to write a session summary to `.opencraft/handoff.md`
 
 ## Governance Hooks
 
@@ -121,7 +113,7 @@ Override detected conventions via `.opencraft/overrides.yaml`.
 
 ### Decision Continuity
 
-**SessionStart** — reads historical decisions from cccmemory (or `.opencraft/decisions.md` fallback) and injects them as context. Ensures AI doesn't re-debate settled architecture choices.
+**SessionStart** — reads historical decisions from cccmemory and injects them as context. Ensures AI doesn't re-debate settled architecture choices.
 
 ### Quality Baseline
 
@@ -134,12 +126,6 @@ Override detected conventions via `.opencraft/overrides.yaml`.
 - Anti-patterns (large files, god modules)
 
 Trends are shown when significant (>5% change). Snapshots saved to `.opencraft/quality-snapshot.json`.
-
-### Session Handoff
-
-**Stop** — prompts Claude to write a brief AI-generated summary to `.opencraft/handoff.md` covering what was worked on, progress, unfinished tasks, and key decisions.
-
-**SessionStart** — loads the handoff and injects it as context for the new session.
 
 ## Supported Tech Stacks
 
@@ -198,9 +184,7 @@ All opencraft generated files live in `.opencraft/`:
 | File | Purpose |
 |------|---------|
 | `.opencraft/profile.json` | Auto-generated governance profile |
-| `.opencraft/handoff.md` | AI-generated session summary |
 | `.opencraft/conventions.md` | Discovered coding conventions |
-| `.opencraft/decisions.md` | Historical project decisions |
 | `.opencraft/quality-snapshot.json` | Code quality metrics history |
 | `.opencraft/knowledge.md` | Project knowledge (cccmemory fallback) |
 
@@ -210,10 +194,9 @@ Add `.opencraft/` to your `.gitignore` to exclude generated files from version c
 
 | Hook | Event | What It Does |
 |------|-------|-------------|
-| `session-start.cjs` | SessionStart | Detects tech stack, generates profile, checks CI alignment, loads handoff, runs smart context |
+| `session-start.cjs` | SessionStart | Detects tech stack, generates profile, checks CI alignment, runs smart context |
 | `pre-tool-use.cjs` | PreToolUse | Secret scanning on Write/Edit, branch protection on git push |
 | `post-tool-use.cjs` | PostToolUse | Dependency audit, architecture guard, verification on git push |
-| `stop.cjs` | Stop | Uncommitted change reminders, decision detection, session handoff prompt |
 
 ## Visibility
 

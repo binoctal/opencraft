@@ -61,7 +61,6 @@ Opencraft uses hooks that run automatically:
 ### SessionStart
 - Detects tech stack from fingerprint files
 - Generates/refreshes `.opencraft/profile.json`
-- Loads session handoff from previous session
 - Injects project context into the conversation
 
 ### PreToolUse (before Write/Edit and git push)
@@ -73,7 +72,6 @@ Opencraft uses hooks that run automatically:
 - **Commit quality**: Runs verification commands from the profile
 
 ### Stop (when you end a conversation)
-- Saves a handoff summary for the next session
 - Checks for uncommitted changes
 - Reminds you if there's unverified work
 ```
