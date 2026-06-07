@@ -11,7 +11,7 @@
       "name": "opencraft",
       "description": "Development governance middleware for Claude Code — auto-detecting tech stacks, enforcing quality gates through hooks, monorepo-aware verification",
       "source": "./",
-      "version": "3.1.0",
+      "version": "0.1.0",
       "author": {
         "name": "binoctal"
       },
