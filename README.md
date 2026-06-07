@@ -99,17 +99,15 @@ Monitors: `package.json`, `go.mod`, `requirements.txt`, `pyproject.toml`, `Cargo
 
 Excludes: `node_modules/`, `vendor/`, `.cache/`, `dist/`, `build/`
 
+### Architecture Guard
+
+**PostToolUse** on Write/Edit — when a source file is modified, warns about files that depend on it. Two-tier resolution: codegraph MCP (AST-precise) → grep (regex fallback). Non-blocking warning.
+
 ### CI Alignment
 
 **SessionStart** — compares commands in `.github/workflows/*.yml` against your governance profile. Reports mismatches so local verification matches CI.
 
-### Session Handoff
-
-**Stop** — prompts Claude to write a brief AI-generated summary to `.opencraft/handoff.md` covering what was worked on, progress, unfinished tasks, and key decisions.
-
-**SessionStart** — loads the handoff and injects it as context for the new session.
-
-### Convention Discovery (v0.7.0+)
+### Convention Discovery
 
 **SessionStart** — auto-scans your codebase to detect naming conventions, structure patterns, and common libraries. Results saved to `.opencraft/conventions.md` (human-readable) and `.opencraft/conventions.json` (machine cache).
 
@@ -121,15 +119,11 @@ Scanners:
 
 Override detected conventions via `.opencraft/overrides.yaml`.
 
-### Decision Continuity (v0.8.0+)
+### Decision Continuity
 
 **SessionStart** — reads historical decisions from cccmemory (or `.opencraft/decisions.md` fallback) and injects them as context. Ensures AI doesn't re-debate settled architecture choices.
 
-### Architecture Guard (v0.9.0+)
-
-**PostToolUse** on Write/Edit — when a source file is modified, warns about files that depend on it. Two-tier resolution: codegraph MCP (AST-precise) → grep (regex fallback). Non-blocking warning.
-
-### Quality Baseline (v1.0.0+)
+### Quality Baseline
 
 **SessionStart** — tracks code quality metrics across sessions:
 - Function length (avg, P75, P90)
@@ -140,6 +134,12 @@ Override detected conventions via `.opencraft/overrides.yaml`.
 - Anti-patterns (large files, god modules)
 
 Trends are shown when significant (>5% change). Snapshots saved to `.opencraft/quality-snapshot.json`.
+
+### Session Handoff
+
+**Stop** — prompts Claude to write a brief AI-generated summary to `.opencraft/handoff.md` covering what was worked on, progress, unfinished tasks, and key decisions.
+
+**SessionStart** — loads the handoff and injects it as context for the new session.
 
 ## Supported Tech Stacks
 
@@ -183,8 +183,13 @@ When turbo is detected alongside another monorepo tool (e.g., pnpm + turbo), tur
 | `opencraft:setup` | View or adjust the auto-generated governance profile |
 | `opencraft:verify` | Manually run verification commands from the profile |
 | `opencraft:onboard` | Guided walkthrough of governance concepts |
+| `opencraft:learn` | Scan conventions, review findings, persist as knowledge or rules |
+| `opencraft:context` | Pull full project context on demand |
+| `opencraft:knowledge` | Browse and manage knowledge scope (project/global) |
+| `opencraft:refresh` | Hot-update the governance profile in-session |
+| `opencraft:wrap` | Extract preferences/patterns from session, write to knowledge |
 
-Most of the time, you won't need any of these — governance works automatically through hooks.
+Most of the time, you won't need these — governance works automatically through hooks.
 
 ## Storage
 
@@ -194,6 +199,10 @@ All opencraft generated files live in `.opencraft/`:
 |------|---------|
 | `.opencraft/profile.json` | Auto-generated governance profile |
 | `.opencraft/handoff.md` | AI-generated session summary |
+| `.opencraft/conventions.md` | Discovered coding conventions |
+| `.opencraft/decisions.md` | Historical project decisions |
+| `.opencraft/quality-snapshot.json` | Code quality metrics history |
+| `.opencraft/knowledge.md` | Project knowledge (cccmemory fallback) |
 
 Add `.opencraft/` to your `.gitignore` to exclude generated files from version control.
 
@@ -201,10 +210,10 @@ Add `.opencraft/` to your `.gitignore` to exclude generated files from version c
 
 | Hook | Event | What It Does |
 |------|-------|-------------|
-| `session-start.cjs` | SessionStart | Detects tech stack, generates profile, checks CI alignment, loads handoff |
+| `session-start.cjs` | SessionStart | Detects tech stack, generates profile, checks CI alignment, loads handoff, runs smart context |
 | `pre-tool-use.cjs` | PreToolUse | Secret scanning on Write/Edit, branch protection on git push |
-| `post-tool-use.cjs` | PostToolUse | Dependency audit on Write/Edit, verification on git push |
-| `stop.cjs` | Stop | Uncommitted change reminders, session handoff prompt |
+| `post-tool-use.cjs` | PostToolUse | Dependency audit, architecture guard, verification on git push |
+| `stop.cjs` | Stop | Uncommitted change reminders, decision detection, session handoff prompt |
 
 ## Visibility
 

@@ -94,17 +94,15 @@ claude plugin marketplace remove opencraft # 移除 marketplace 源
 
 监控：`package.json`、`go.mod`、`requirements.txt`、`pyproject.toml`、`Cargo.toml`、`Gemfile`、`composer.json`、`pom.xml`、`build.gradle`、`pubspec.yaml` 等。
 
+### 架构守卫
+
+**PostToolUse**（Write/Edit）— 修改源文件时，警告依赖该文件的文件。两级解析：codegraph MCP（AST 精确）→ grep（正则回退）。非阻塞警告。
+
 ### CI 对齐
 
 **SessionStart** — 对比 `.github/workflows/*.yml` 中的命令与治理 profile。报告不匹配项。
 
-### 会话交接
-
-**Stop** — 提示 Claude 写入简短的 AI 生成摘要到 `.opencraft/handoff.md`。
-
-**SessionStart** — 加载交接文档作为新会话的上下文。
-
-### 约定发现（v0.7.0+）
+### 约定发现
 
 **SessionStart** — 自动扫描代码库，检测命名约定、结构模式和常用库。结果保存到 `.opencraft/conventions.md`（人类可读）和 `.opencraft/conventions.json`（机器缓存）。
 
@@ -116,15 +114,11 @@ claude plugin marketplace remove opencraft # 移除 marketplace 源
 
 可通过 `.opencraft/overrides.yaml` 覆盖检测到的约定。
 
-### 决策连续性（v0.8.0+）
+### 决策连续性
 
 **SessionStart** — 从 cccmemory（或 `.opencraft/decisions.md` 回退源）读取历史决策并注入上下文。确保 AI 不会重新讨论已确定的架构选择。
 
-### 架构守卫（v0.9.0+）
-
-**PostToolUse**（Write/Edit）— 修改源文件时，警告依赖该文件的文件。两级解析：codegraph MCP（AST 精确）→ grep（正则回退）。非阻塞警告。
-
-### 质量基线（v1.0.0+）
+### 质量基线
 
 **SessionStart** — 跨会话追踪代码质量指标：
 - 函数长度（平均值、P75、P90）
@@ -135,6 +129,12 @@ claude plugin marketplace remove opencraft # 移除 marketplace 源
 - 反模式（大文件、上帝模块）
 
 显著变化（>5%）时显示趋势。快照保存到 `.opencraft/quality-snapshot.json`。
+
+### 会话交接
+
+**Stop** — 提示 Claude 写入简短的 AI 生成摘要到 `.opencraft/handoff.md`。
+
+**SessionStart** — 加载交接文档作为新会话的上下文。
 
 ## 支持的技术栈
 
@@ -178,6 +178,11 @@ Opencraft 自动检测 monorepo 并使用工作区级别的命令：
 | `opencraft:setup` | 查看或调整自动生成的治理配置 |
 | `opencraft:verify` | 手动运行 profile 中的验证命令 |
 | `opencraft:onboard` | 治理概念引导 |
+| `opencraft:learn` | 扫描约定、审查发现、持久化为知识或规则 |
+| `opencraft:context` | 按需拉取完整项目上下文 |
+| `opencraft:knowledge` | 浏览和管理知识范围（项目/全局） |
+| `opencraft:refresh` | 会话内热更新治理配置 |
+| `opencraft:wrap` | 提取会话偏好/模式，写入知识库 |
 
 大多数时候不需要调用任何 skill——治理通过 hooks 自动运行。
 
@@ -190,9 +195,9 @@ Opencraft 自动检测 monorepo 并使用工作区级别的命令：
 | `.opencraft/profile.json` | 自动生成的治理配置 |
 | `.opencraft/handoff.md` | AI 生成的会话摘要 |
 | `.opencraft/conventions.md` | 检测到的代码约定（人类可读） |
-| `.opencraft/conventions.json` | 代码约定（机器缓存） |
 | `.opencraft/decisions.md` | 历史决策记录 |
 | `.opencraft/quality-snapshot.json` | 质量指标快照 |
+| `.opencraft/knowledge.md` | 项目知识（cccmemory 回退源） |
 
 将 `.opencraft/` 添加到 `.gitignore` 以排除版本控制。
 
@@ -200,9 +205,9 @@ Opencraft 自动检测 monorepo 并使用工作区级别的命令：
 
 | Hook | 事件 | 作用 |
 |------|------|------|
-| `session-start.cjs` | SessionStart | 检测技术栈、生成 profile、检查 CI 对齐、加载交接文档 |
+| `session-start.cjs` | SessionStart | 检测技术栈、生成 profile、检查 CI 对齐、加载交接文档、运行智能上下文 |
 | `pre-tool-use.cjs` | PreToolUse | Write/Edit 密钥扫描、git push 分支保护 |
-| `post-tool-use.cjs` | PostToolUse | Write/Edit 依赖审计、git push 验证 |
+| `post-tool-use.cjs` | PostToolUse | Write/Edit 依赖审计、架构守卫、git push 验证 |
 | `stop.cjs` | Stop | 决策自动追加、未提交变更提醒 |
 
 ## 可见性
