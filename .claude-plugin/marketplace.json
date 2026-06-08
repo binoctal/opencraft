@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "opencraft",
-  "description": "Development governance middleware — auto-detecting tech stacks, enforcing quality gates through hooks, monorepo support",
+  "description": "Development governance middleware — auto-detecting tech stacks, enforcing quality gates through hooks, monorepo support, convention discovery, and knowledge management",
   "owner": {
     "name": "binoctal",
     "email": "binoctal@gmail.com"
@@ -9,17 +9,62 @@
   "plugins": [
     {
       "name": "opencraft",
-      "description": "Development governance middleware for Claude Code — auto-detecting tech stacks, enforcing quality gates through hooks, monorepo-aware verification",
+      "description": "Zero-configuration development governance middleware for Claude Code. Auto-detects tech stacks, enforces quality gates through hooks, prevents secret leaks, protects branches, audits dependency changes, discovers coding conventions, tracks quality metrics, and manages project knowledge.",
       "source": "./",
       "version": "0.1.0",
       "author": {
-        "name": "binoctal"
+        "name": "binoctal",
+        "email": "binoctal@gmail.com"
       },
       "category": "development",
-      "keywords": ["governance", "hooks", "auto-detection", "quality-gates", "monorepo"],
+      "keywords": [
+        "governance",
+        "hooks",
+        "auto-detection",
+        "quality-gates",
+        "monorepo",
+        "secrets",
+        "conventions",
+        "knowledge",
+        "ci-alignment",
+        "branch-protection"
+      ],
       "homepage": "https://github.com/binoctal/opencraft",
       "license": "MIT",
-      "skills": ["./skills"],
+      "skills": [
+        {
+          "name": "setup",
+          "path": "./skills/setup/SKILL.md"
+        },
+        {
+          "name": "verify",
+          "path": "./skills/verify/SKILL.md"
+        },
+        {
+          "name": "onboard",
+          "path": "./skills/onboard/SKILL.md"
+        },
+        {
+          "name": "learn",
+          "path": "./skills/learn/SKILL.md"
+        },
+        {
+          "name": "context",
+          "path": "./skills/context/SKILL.md"
+        },
+        {
+          "name": "knowledge",
+          "path": "./skills/knowledge/SKILL.md"
+        },
+        {
+          "name": "refresh",
+          "path": "./skills/refresh/SKILL.md"
+        },
+        {
+          "name": "wrap",
+          "path": "./skills/wrap/SKILL.md"
+        }
+      ],
       "hooks": "./hooks/hooks.json"
     }
   ]

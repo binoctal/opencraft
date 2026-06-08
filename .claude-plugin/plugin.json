@@ -1,6 +1,6 @@
 {
   "name": "opencraft",
-  "description": "Development governance middleware for Claude Code — auto-detecting tech stacks, enforcing quality gates through hooks",
+  "description": "Zero-configuration development governance middleware for Claude Code — auto-detecting tech stacks, enforcing quality gates through hooks, preventing secret leaks, discovering conventions, and managing project knowledge",
   "version": "0.1.0",
   "author": {
     "name": "binoctal",
@@ -13,6 +13,21 @@
     "hooks",
     "auto-detection",
     "quality-gates",
-    "development"
-  ]
+    "secrets",
+    "conventions",
+    "knowledge",
+    "branch-protection",
+    "ci-alignment"
+  ],
+  "skills": [
+    "setup",
+    "verify",
+    "onboard",
+    "learn",
+    "context",
+    "knowledge",
+    "refresh",
+    "wrap"
+  ],
+  "hooks": "./hooks/hooks.json"
 }
