@@ -74,10 +74,13 @@ Select items to save as knowledge. Items marked [enforce] can also be converted 
 For each confirmed item:
 
 **If cccmemory is available:**
-- Use `mcp__cccmemory__remember` with:
+- First, use `mcp__cccmemory__recall_relevant` with query "<convention topic>" to find any existing memories on the same topic
+- If outdated or conflicting entries exist, use `mcp__cccmemory__forget` to remove them before saving the new one
+- Then use `mcp__cccmemory__remember` with:
   - `tags: ["convention", type]` (e.g., ["convention", "pattern"])
   - `confidence: "confirmed"` (user verified)
   - `importance: "normal"`
+- This ensures cccmemory always reflects the latest conventions
 
 **If no cccmemory:**
 

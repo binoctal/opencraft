@@ -13,6 +13,7 @@ If `.opencraft/profile.json` does NOT exist (project not yet activated):
    - Scan project for tech stack fingerprints (go.mod, tsconfig.json, package.json, etc.)
    - Detect monorepo setup, test frameworks, lint tools
    - Generate `.opencraft/profile.json` with verification commands
+   - Plugin is automatically enabled for this project (detection.cjs injects `enabledPlugins` into `.claude/settings.json`)
 
 2. **Run convention scan**
    - Scan naming conventions (camelCase, snake_case, etc.)

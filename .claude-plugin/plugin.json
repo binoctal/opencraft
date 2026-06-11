@@ -18,16 +18,5 @@
     "knowledge",
     "branch-protection",
     "ci-alignment"
-  ],
-  "skills": [
-    "setup",
-    "verify",
-    "onboard",
-    "learn",
-    "context",
-    "knowledge",
-    "refresh",
-    "wrap"
-  ],
-  "hooks": "./hooks/hooks.json"
+  ]
 }
