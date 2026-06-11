@@ -10,7 +10,7 @@ const { collect: collectWorkingTree } = require("./collectors/working-tree.cjs")
 const { collect: collectRecentActivity } = require("./collectors/recent-activity.cjs");
 const { collect: collectOpenWork } = require("./collectors/open-work.cjs");
 const { collect: collectConventions } = require("./collectors/conventions.cjs");
-const { collect: collectDecisions } = require("./collectors/decisions.cjs");
+
 const { collect: collectOpenspec } = require("./collectors/openspec.cjs");
 const { collect: collectCiAlignment } = require("./collectors/ci-alignment.cjs");
 const { collect: collectClaudeMd } = require("./collectors/claude-md.cjs");
@@ -39,7 +39,7 @@ function collectSignals(cwd, opts = {}) {
     { name: "recent-activity", fn: collectRecentActivity, priority: 45 },
     { name: "open-work", fn: collectOpenWork, priority: 60 },
     { name: "conventions", fn: collectConventions, priority: 70 },
-    { name: "decisions", fn: collectDecisions, priority: 72 },
+
     { name: "openspec", fn: collectOpenspec, priority: 55 },
     { name: "ci-alignment", fn: collectCiAlignment, priority: 90 },
     { name: "claude-md", fn: collectClaudeMd, priority: 20 },
