@@ -33,6 +33,34 @@ function clearCache() {
   _cache.clear();
 }
 
+/**
+ * Collect the set of rule ids that should NOT be loaded.
+ * Two layers, unioned together:
+ *   1. Global default: ~/.opencraft/disabled-rules.json  -> { "disabledRules": [...] }
+ *   2. Per-project:    <cwd>/.opencraft/profile.json      -> { "disabledRules": [...] }
+ * Rule files stay on disk; disabled ids are simply filtered out at load time.
+ */
+function _collectDisabledRuleIds(cwd) {
+  const disabled = new Set();
+
+  const readIds = (filePath) => {
+    try {
+      const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+      if (Array.isArray(data?.disabledRules)) {
+        for (const id of data.disabledRules) {
+          if (typeof id === "string") disabled.add(id);
+        }
+      }
+    } catch {}
+  };
+
+  const home = process.env.HOME || process.env.USERPROFILE;
+  if (home) readIds(path.join(home, ".opencraft", "disabled-rules.json"));
+  readIds(path.join(cwd, ".opencraft", "profile.json"));
+
+  return disabled;
+}
+
 function loadRules(cwd) {
   if (_cache.has(cwd)) return _cache.get(cwd);
 
@@ -57,8 +85,14 @@ function loadRules(cwd) {
     }
   }
 
-  _cache.set(cwd, rules);
-  return rules;
+  // Filter out disabled rules (files remain on disk for easy re-enabling).
+  const disabledIds = _collectDisabledRuleIds(cwd);
+  const enabled = disabledIds.size > 0
+    ? rules.filter(r => !disabledIds.has(r.id))
+    : rules;
+
+  _cache.set(cwd, enabled);
+  return enabled;
 }
 
 function _loadRulesFromDir(dir, rules) {
