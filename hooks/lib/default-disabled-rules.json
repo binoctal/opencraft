@@ -1,0 +1,8 @@
+{
+  "_comment": "Default opencraft rule ids that are disabled out-of-the-box. Used ONLY to seed ~/.opencraft/disabled-rules.json on first run; it is never read by the rule engine for load-time decisions. Edit the generated global file to change behavior.",
+  "disabledRules": [
+    "no-push-main",
+    "no-force-push",
+    "require-feature-branch"
+  ]
+}

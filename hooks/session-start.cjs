@@ -3,6 +3,7 @@ const path = require("path");
 const { getOrCreateProfile } = require("./lib/detection.cjs");
 
 const { runScan, countConventions } = require("./lib/convention-engine.cjs");
+const { ensureGlobalDisabledRules } = require("./lib/ensure-global-config.cjs");
 
 /**
  * Guard: only run for projects that have been explicitly activated.
@@ -24,6 +25,9 @@ function buildIndexLine(profile, conventionCount, ruleCount) {
 function main() {
   const cwd = process.cwd();
   if (!isActivatedProject(cwd)) process.exit(0);
+
+  // Backstop: seed the global disabled-rules file on first run (idempotent).
+  try { ensureGlobalDisabledRules(); } catch {}
 
   try {
     const { profile, isNew } = getOrCreateProfile(cwd);

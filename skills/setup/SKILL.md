@@ -20,11 +20,16 @@ If `.opencraft/profile.json` does NOT exist (project not yet activated):
    - Detect structure patterns (function length, test directory)
    - Save to `.opencraft/conventions.md` + `.opencraft/conventions.json`
 
-3. **Show results**
+3. **Seed global disabled-rules config**
+   - Run `node hooks/lib/ensure-global-config.cjs` (or require + call `ensureGlobalDisabledRules()`)
+   - Creates `~/.opencraft/disabled-rules.json` from the shipped default template on first run only; never overwrites an existing user-edited file
+   - This is what makes branch-protection rules (no-push-main, etc.) disabled by default
+
+4. **Show results**
    - Display: detected tech stack, verification commands, conventions found
    - Explain what opencraft will now do automatically (session context, secret scanning, dependency audit, etc.)
 
-4. **Gitignore**
+5. **Gitignore**
    - Remind user to add `.opencraft/` to `.gitignore` if not already present
 
 ## Adjustment
