@@ -32,38 +32,14 @@
       "homepage": "https://github.com/binoctal/opencraft",
       "license": "MIT",
       "skills": [
-        {
-          "name": "setup",
-          "path": "./skills/setup/SKILL.md"
-        },
-        {
-          "name": "verify",
-          "path": "./skills/verify/SKILL.md"
-        },
-        {
-          "name": "onboard",
-          "path": "./skills/onboard/SKILL.md"
-        },
-        {
-          "name": "learn",
-          "path": "./skills/learn/SKILL.md"
-        },
-        {
-          "name": "context",
-          "path": "./skills/context/SKILL.md"
-        },
-        {
-          "name": "knowledge",
-          "path": "./skills/knowledge/SKILL.md"
-        },
-        {
-          "name": "refresh",
-          "path": "./skills/refresh/SKILL.md"
-        },
-        {
-          "name": "wrap",
-          "path": "./skills/wrap/SKILL.md"
-        }
+        "./skills/setup",
+        "./skills/verify",
+        "./skills/onboard",
+        "./skills/learn",
+        "./skills/context",
+        "./skills/knowledge",
+        "./skills/refresh",
+        "./skills/wrap"
       ],
       "hooks": "./hooks/hooks.json"
     }
