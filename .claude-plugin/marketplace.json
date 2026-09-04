@@ -40,8 +40,7 @@
         "./skills/knowledge",
         "./skills/refresh",
         "./skills/wrap"
-      ],
-      "hooks": "./hooks/hooks.json"
+      ]
     }
   ]
 }
